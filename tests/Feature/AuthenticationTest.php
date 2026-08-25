@@ -37,6 +37,26 @@ class AuthenticationTest extends TestCase
         $this->assertAuthenticated();
     }
 
+    public function test_inactive_user_cannot_login(): void
+    {
+        $password = 'password123';
+
+        User::query()->create([
+            'name' => 'Inactive User',
+            'email' => 'inactive@example.com',
+            'password' => Hash::make($password),
+            'status' => 'inactive',
+        ]);
+
+        $this->post(route('login.store'), [
+            'email' => 'inactive@example.com',
+            'password' => $password,
+        ])
+            ->assertSessionHasErrors('email');
+
+        $this->assertGuest();
+    }
+
     public function test_invalid_credentials_are_rejected(): void
     {
         User::query()->create([
