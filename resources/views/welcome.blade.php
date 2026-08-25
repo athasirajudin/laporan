@@ -7,10 +7,16 @@
         <div class="col-lg-8">
             <p class="mb-2 fw-semibold text-uppercase small">Sistem Pendataan Kos</p>
             <h1 class="display-6 fw-bold">Pendataan kos dan penghuni yang terstruktur.</h1>
-            <p class="lead mb-0">
-                Fondasi aplikasi telah disiapkan. Fitur autentikasi dan pengelolaan data akan tersedia
-                pada phase berikutnya.
+            <p class="lead mb-4">
+                Sistem untuk membantu pemilik kos melakukan pendataan penghuni secara rapi, sementara Admin
+                dapat memantau data sesuai wilayahnya.
             </p>
+
+            @guest
+                <a href="{{ route('login') }}" class="btn btn-light btn-lg">Masuk ke Sistem</a>
+            @else
+                <span class="badge text-bg-light text-dark">Anda sudah login sebagai {{ auth()->user()->name }}</span>
+            @endguest
         </div>
     </section>
 
@@ -19,7 +25,7 @@
             <article class="card h-100 border-0 shadow-sm">
                 <div class="card-body">
                     <h2 class="h5">Wilayah</h2>
-                    <p class="mb-0 text-secondary">Data wilayah akan menjadi dasar cakupan akses Admin.</p>
+                    <p class="mb-0 text-secondary">Data wilayah menjadi dasar cakupan akses Admin.</p>
                 </div>
             </article>
         </div>
@@ -35,7 +41,7 @@
             <article class="card h-100 border-0 shadow-sm">
                 <div class="card-body">
                     <h2 class="h5">Penghuni</h2>
-                    <p class="mb-0 text-secondary">Riwayat penghuni akan dikelola tanpa menghapus data keluar.</p>
+                    <p class="mb-0 text-secondary">Penghuni aktif dapat dicatat dan riwayat penghuni yang keluar tetap disimpan.</p>
                 </div>
             </article>
         </div>
