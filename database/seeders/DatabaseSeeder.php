@@ -15,7 +15,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        if (! app()->environment(['local', 'testing'])) {
+            return;
+        }
+
+        User::factory()->create([
+            'name' => 'Super Admin',
+            'email' => 'superadmin@example.com',
+            'role' => 'super_admin',
+            'wilayah_id' => null,
+            'status' => 'active',
+        ]);
 
         User::factory()->create([
             'name' => 'Test User',
