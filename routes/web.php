@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\KosController as AdminKosController;
+use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
+use App\Http\Controllers\Admin\PenghuniController as AdminPenghuniController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuperAdmin\AdminController;
@@ -18,7 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
     Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    Route::middleware('role:super_admin')->prefix('super-admin')->name('super-admin.')->group(function () {
+    Route::prefix('super-admin')->name('super-admin.')->middleware('role:super_admin')->group(function () {
         Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('/', [AdminController::class, 'index'])->name('index');
             Route::get('/create', [AdminController::class, 'create'])->name('create');
@@ -44,5 +48,16 @@ Route::middleware('auth')->group(function () {
             Route::patch('/{kos}/verify', [KosController::class, 'verify'])->name('verify');
             Route::patch('/{kos}/reject', [KosController::class, 'reject'])->name('reject');
         });
+    });
+
+    Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
+        Route::get('/dashboard', AdminDashboardController::class)->name('dashboard');
+        Route::get('/kos', [AdminKosController::class, 'index'])->name('kos.index');
+        Route::get('/kos/{kos}', [AdminKosController::class, 'show'])->name('kos.show');
+        Route::patch('/kos/{kos}/verify', [AdminKosController::class, 'verify'])->name('kos.verify');
+        Route::patch('/kos/{kos}/reject', [AdminKosController::class, 'reject'])->name('kos.reject');
+        Route::get('/penghuni', [AdminPenghuniController::class, 'index'])->name('penghuni.index');
+        Route::get('/penghuni/{penghuni}', [AdminPenghuniController::class, 'show'])->name('penghuni.show');
+        Route::get('/laporan', [AdminLaporanController::class, 'index'])->name('laporan.index');
     });
 });
