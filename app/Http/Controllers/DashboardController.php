@@ -25,7 +25,7 @@ class DashboardController extends Controller
                 'totalPenghuni' => Penghuni::query()->count(),
                 'penghuniAktif' => Penghuni::query()->where('status', 'active')->count(),
             ]),
-            'admin' => view('admin.dashboard', [
+            'admin' => view('dashboard.admin', [
                 'totalKos' => Kos::query()->where('wilayah_id', $user->wilayah_id)->count(),
                 'kosPending' => Kos::query()->where('wilayah_id', $user->wilayah_id)->where('status', 'pending')->count(),
                 'kosAktif' => Kos::query()->where('wilayah_id', $user->wilayah_id)->where('status', 'active')->count(),
