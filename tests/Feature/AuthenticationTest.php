@@ -32,9 +32,39 @@ class AuthenticationTest extends TestCase
             'email' => 'test@example.com',
             'password' => $password,
         ])
-            ->assertRedirect(route('home'));
+            ->assertRedirect(route('dashboard'));
 
         $this->assertAuthenticated();
+    }
+
+    public function test_super_admin_is_redirected_to_super_admin_dashboard(): void
+    {
+        $user = User::factory()->superAdmin()->create();
+
+        $this->actingAs($user)
+            ->get(route('dashboard'))
+            ->assertSuccessful()
+            ->assertViewIs('dashboard.super-admin');
+    }
+
+    public function test_admin_is_redirected_to_admin_dashboard(): void
+    {
+        $user = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($user)
+            ->get(route('dashboard'))
+            ->assertSuccessful()
+            ->assertViewIs('dashboard.admin');
+    }
+
+    public function test_pemilik_kos_is_redirected_to_pemilik_kos_dashboard(): void
+    {
+        $user = User::factory()->pemilikKos()->create();
+
+        $this->actingAs($user)
+            ->get(route('dashboard'))
+            ->assertSuccessful()
+            ->assertViewIs('dashboard.pemilik-kos');
     }
 
     public function test_inactive_user_cannot_login(): void
