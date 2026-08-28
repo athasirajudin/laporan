@@ -6,12 +6,11 @@ use App\Models\Kos;
 use App\Models\Penghuni;
 use App\Models\User;
 use App\Models\Wilayah;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function __invoke(): View|RedirectResponse
+    public function __invoke(): View
     {
         $user = auth()->user();
 
@@ -26,7 +25,14 @@ class DashboardController extends Controller
                 'totalPenghuni' => Penghuni::query()->count(),
                 'penghuniAktif' => Penghuni::query()->where('status', 'active')->count(),
             ]),
-            'admin' => redirect()->route('admin.dashboard'),
+            'admin' => view('admin.dashboard', [
+                'totalKos' => Kos::query()->where('wilayah_id', $user->wilayah_id)->count(),
+                'kosPending' => Kos::query()->where('wilayah_id', $user->wilayah_id)->where('status', 'pending')->count(),
+                'kosAktif' => Kos::query()->where('wilayah_id', $user->wilayah_id)->where('status', 'active')->count(),
+                'totalPenghuni' => Penghuni::query()->whereHas('kos', fn ($query) => $query->where('wilayah_id', $user->wilayah_id))->count(),
+                'penghuniAktif' => Penghuni::query()->where('status', 'active')->whereHas('kos', fn ($query) => $query->where('wilayah_id', $user->wilayah_id))->count(),
+                'penghuniKeluar' => Penghuni::query()->where('status', 'inactive')->whereHas('kos', fn ($query) => $query->where('wilayah_id', $user->wilayah_id))->count(),
+            ]),
             'pemilik_kos' => view('dashboard.pemilik-kos'),
             default => abort(403),
         };
