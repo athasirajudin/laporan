@@ -6,12 +6,12 @@ use App\Models\Kos;
 use App\Models\Penghuni;
 use App\Models\User;
 use App\Models\Wilayah;
-use Illuminate\Http\Response;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function __invoke(): View|Response
+    public function __invoke(): View|RedirectResponse
     {
         $user = auth()->user();
 
@@ -26,7 +26,7 @@ class DashboardController extends Controller
                 'totalPenghuni' => Penghuni::query()->count(),
                 'penghuniAktif' => Penghuni::query()->where('status', 'active')->count(),
             ]),
-            'admin' => view('dashboard.admin'),
+            'admin' => redirect()->route('admin.dashboard'),
             'pemilik_kos' => view('dashboard.pemilik-kos'),
             default => abort(403),
         };
