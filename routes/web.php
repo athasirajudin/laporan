@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SuperAdmin\AdminController;
+use App\Http\Controllers\SuperAdmin\KosController;
 use App\Http\Controllers\SuperAdmin\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,13 @@ Route::middleware('auth')->group(function () {
             Route::get('/{wilayah}', [WilayahController::class, 'show'])->name('show');
             Route::get('/{wilayah}/edit', [WilayahController::class, 'edit'])->name('edit');
             Route::put('/{wilayah}', [WilayahController::class, 'update'])->name('update');
+        });
+
+        Route::prefix('kos')->name('kos.')->group(function () {
+            Route::get('/', [KosController::class, 'index'])->name('index');
+            Route::get('/{kos}', [KosController::class, 'show'])->name('show');
+            Route::patch('/{kos}/verify', [KosController::class, 'verify'])->name('verify');
+            Route::patch('/{kos}/reject', [KosController::class, 'reject'])->name('reject');
         });
     });
 });
