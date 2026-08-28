@@ -1,0 +1,6 @@
+@extends('layouts.app')
+@section('title','Semua Kos')
+@section('content')
+<div class="mb-4"><h1 class="h3 mb-1">Semua Kos</h1><p class="text-secondary mb-0">Monitoring seluruh kos yang terdaftar di sistem.</p></div>
+<div class="card border-0 shadow-sm"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th class="ps-3">Kos</th><th>Pemilik</th><th>Wilayah</th><th>Status</th><th>Penghuni</th><th class="text-end pe-3">Aksi</th></tr></thead><tbody>@forelse($kos as $item)<tr><td class="ps-3 fw-semibold">{{ $item->nama_kos }}</td><td>{{ $item->user->name }}</td><td>RT {{ $item->wilayah->rt }}/RW {{ $item->wilayah->rw }} — {{ $item->wilayah->kelurahan }}</td><td><span class="badge {{ $item->status === 'active' ? 'text-bg-success' : ($item->status === 'pending' ? 'text-bg-warning' : ($item->status === 'rejected' ? 'text-bg-danger' : 'text-bg-secondary')) }}">{{ ucfirst($item->status) }}</span></td><td>{{ $item->penghuni_count }}</td><td class="text-end pe-3"><a href="{{ route('super-admin.kos.show',$item) }}" class="btn btn-sm btn-outline-primary">Detail</a></td></tr>@empty<tr><td colspan="6" class="text-center py-5 text-secondary">Belum ada kos.</td></tr>@endforelse</tbody></table></div><div class="card-footer bg-white">{{ $kos->links() }}</div></div>
+@endsection
