@@ -71,6 +71,31 @@ class PemilikKosAccessTest extends TestCase
         ]);
     }
 
+    public function test_owner_cannot_set_exit_date_before_entry_date(): void
+    {
+        $owner = User::factory()->pemilikKos()->create();
+        $wilayah = Wilayah::factory()->create();
+        $kos = Kos::factory()->for($owner, 'user')->for($wilayah)->create(['status' => 'active']);
+        $penghuni = Penghuni::factory()->for($kos)->create([
+            'status' => 'active',
+            'tanggal_masuk' => now()->subDays(5)->format('Y-m-d'),
+            'tanggal_keluar' => null,
+        ]);
+
+        $this->actingAs($owner)
+            ->patch(route('pemilik-kos.penghuni.keluar', $penghuni), [
+                'tanggal_keluar' => now()->subDays(6)->format('Y-m-d'),
+                'keterangan' => 'Tanggal tidak valid',
+            ])
+            ->assertSessionHasErrors('tanggal_keluar');
+
+        $this->assertDatabaseHas('penghuni', [
+            'id' => $penghuni->id,
+            'status' => 'active',
+            'tanggal_keluar' => null,
+        ]);
+    }
+
     public function test_owner_can_mark_their_active_occupant_as_exited(): void
     {
         $owner = User::factory()->pemilikKos()->create();
