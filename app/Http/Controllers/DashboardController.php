@@ -25,7 +25,7 @@ class DashboardController extends Controller
                 'totalPenghuni' => Penghuni::query()->count(),
                 'penghuniAktif' => Penghuni::query()->where('status', 'active')->count(),
             ]),
-            'admin' => view('dashboard.admin', [
+            'admin' => view('admin.dashboard', [
                 'totalKos' => Kos::query()->where('wilayah_id', $user->wilayah_id)->count(),
                 'kosPending' => Kos::query()->where('wilayah_id', $user->wilayah_id)->where('status', 'pending')->count(),
                 'kosAktif' => Kos::query()->where('wilayah_id', $user->wilayah_id)->where('status', 'active')->count(),
@@ -33,7 +33,12 @@ class DashboardController extends Controller
                 'penghuniAktif' => Penghuni::query()->where('status', 'active')->whereHas('kos', fn ($query) => $query->where('wilayah_id', $user->wilayah_id))->count(),
                 'penghuniKeluar' => Penghuni::query()->where('status', 'inactive')->whereHas('kos', fn ($query) => $query->where('wilayah_id', $user->wilayah_id))->count(),
             ]),
-            'pemilik_kos' => view('dashboard.pemilik-kos'),
+            'pemilik_kos' => view('pemilik-kos.dashboard', [
+                'totalKos' => Kos::query()->where('user_id', $user->id)->count(),
+                'kosAktif' => Kos::query()->where('user_id', $user->id)->where('status', 'active')->count(),
+                'penghuniAktif' => Penghuni::query()->where('status', 'active')->whereHas('kos', fn ($query) => $query->where('user_id', $user->id))->count(),
+                'riwayatPenghuni' => Penghuni::query()->where('status', 'inactive')->whereHas('kos', fn ($query) => $query->where('user_id', $user->id))->count(),
+            ]),
             default => abort(403),
         };
     }
