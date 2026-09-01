@@ -36,3 +36,25 @@ body {
 .hero-panel {
     background: linear-gradient(135deg, var(--app-primary), #2f7a8f);
 }
+
+@media print {
+    .app-navbar,
+    .app-sidebar,
+    .app-content > .alert,
+    .print-hide,
+    .btn {
+        display: none !important;
+    }
+
+    .app-content {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #dee2e6 !important;
+        break-inside: avoid;
+    }
+}
