@@ -119,8 +119,12 @@ class PemilikKosAccessTest extends TestCase
         $this->assertDatabaseHas('penghuni', [
             'id' => $penghuni->id,
             'status' => 'inactive',
-            'tanggal_keluar' => $tanggalKeluar,
             'keterangan' => 'Pindah tempat tinggal',
         ]);
+
+        $this->assertSame(
+            $tanggalKeluar,
+            $penghuni->fresh()->tanggal_keluar?->format('Y-m-d')
+        );
     }
 }
