@@ -6,6 +6,10 @@ use App\Http\Controllers\Admin\LaporanController as AdminLaporanController;
 use App\Http\Controllers\Admin\PenghuniController as AdminPenghuniController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PemilikKos\DashboardController as PemilikKosDashboardController;
+use App\Http\Controllers\PemilikKos\KosController as PemilikKosKosController;
+use App\Http\Controllers\PemilikKos\LaporanController as PemilikKosLaporanController;
+use App\Http\Controllers\PemilikKos\PenghuniController as PemilikKosPenghuniController;
 use App\Http\Controllers\SuperAdmin\AdminController;
 use App\Http\Controllers\SuperAdmin\KosController;
 use App\Http\Controllers\SuperAdmin\WilayahController;
@@ -59,5 +63,31 @@ Route::middleware('auth')->group(function () {
         Route::get('/penghuni', [AdminPenghuniController::class, 'index'])->name('penghuni.index');
         Route::get('/penghuni/{penghuni}', [AdminPenghuniController::class, 'show'])->name('penghuni.show');
         Route::get('/laporan', [AdminLaporanController::class, 'index'])->name('laporan.index');
+    });
+
+    Route::prefix('pemilik-kos')->name('pemilik-kos.')->middleware('role:pemilik_kos')->group(function () {
+        Route::get('/dashboard', PemilikKosDashboardController::class)->name('dashboard');
+
+        Route::prefix('kos')->name('kos.')->group(function () {
+            Route::get('/', [PemilikKosKosController::class, 'index'])->name('index');
+            Route::get('/create', [PemilikKosKosController::class, 'create'])->name('create');
+            Route::post('/', [PemilikKosKosController::class, 'store'])->name('store');
+            Route::get('/{kos}', [PemilikKosKosController::class, 'show'])->name('show');
+            Route::get('/{kos}/edit', [PemilikKosKosController::class, 'edit'])->name('edit');
+            Route::put('/{kos}', [PemilikKosKosController::class, 'update'])->name('update');
+        });
+
+        Route::prefix('penghuni')->name('penghuni.')->group(function () {
+            Route::get('/', [PemilikKosPenghuniController::class, 'index'])->name('index');
+            Route::get('/riwayat', [PemilikKosPenghuniController::class, 'history'])->name('history');
+            Route::get('/create', [PemilikKosPenghuniController::class, 'create'])->name('create');
+            Route::post('/', [PemilikKosPenghuniController::class, 'store'])->name('store');
+            Route::get('/{penghuni}', [PemilikKosPenghuniController::class, 'show'])->name('show');
+            Route::get('/{penghuni}/edit', [PemilikKosPenghuniController::class, 'edit'])->name('edit');
+            Route::put('/{penghuni}', [PemilikKosPenghuniController::class, 'update'])->name('update');
+            Route::patch('/{penghuni}/keluar', [PemilikKosPenghuniController::class, 'markAsExited'])->name('keluar');
+        });
+
+        Route::get('/laporan', [PemilikKosLaporanController::class, 'index'])->name('laporan.index');
     });
 });
