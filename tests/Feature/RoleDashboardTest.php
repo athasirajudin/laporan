@@ -27,7 +27,7 @@ class RoleDashboardTest extends TestCase
         $this->actingAs($user)
             ->get(route('dashboard'))
             ->assertOk()
-            ->assertViewIs('dashboard.admin');
+            ->assertViewIs('admin.dashboard');
     }
 
     public function test_pemilik_kos_can_open_dashboard(): void
@@ -37,6 +37,6 @@ class RoleDashboardTest extends TestCase
         $this->actingAs($user)
             ->get(route('dashboard'))
             ->assertOk()
-            ->assertViewIs('dashboard.pemilik-kos');
+            ->assertViewIs('pemilik-kos.dashboard');
     }
 }
