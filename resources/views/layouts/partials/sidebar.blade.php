@@ -8,6 +8,7 @@
             <a class="nav-link" href="{{ route('super-admin.admin.index') }}">Manajemen Admin</a>
             <a class="nav-link" href="{{ route('super-admin.wilayah.index') }}">Data Wilayah</a>
             <a class="nav-link" href="{{ route('super-admin.kos.index') }}">Semua Kos</a>
+            <a class="nav-link" href="{{ route('super-admin.laporan.index') }}">Laporan Sistem</a>
         @elseif(auth()->user()->isAdmin())
             <div class="small text-uppercase fw-semibold text-secondary mt-3 mb-1">Admin</div>
             <a class="nav-link" href="{{ route('admin.dashboard') }}">Dashboard Wilayah</a>
