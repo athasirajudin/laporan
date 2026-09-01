@@ -44,7 +44,7 @@ class AuthenticationTest extends TestCase
         $this->actingAs($user)
             ->get(route('dashboard'))
             ->assertSuccessful()
-            ->assertViewIs('dashboard.super-admin');
+            ->assertViewIs('super-admin.dashboard');
     }
 
     public function test_admin_is_redirected_to_admin_dashboard(): void
@@ -54,7 +54,7 @@ class AuthenticationTest extends TestCase
         $this->actingAs($user)
             ->get(route('dashboard'))
             ->assertSuccessful()
-            ->assertViewIs('dashboard.admin');
+            ->assertViewIs('admin.dashboard');
     }
 
     public function test_pemilik_kos_is_redirected_to_pemilik_kos_dashboard(): void
@@ -64,7 +64,7 @@ class AuthenticationTest extends TestCase
         $this->actingAs($user)
             ->get(route('dashboard'))
             ->assertSuccessful()
-            ->assertViewIs('dashboard.pemilik-kos');
+            ->assertViewIs('pemilik-kos.dashboard');
     }
 
     public function test_inactive_user_cannot_login(): void
