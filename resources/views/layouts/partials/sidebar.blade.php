@@ -16,7 +16,11 @@
             <a class="nav-link" href="{{ route('admin.laporan.index') }}">Laporan Wilayah</a>
         @elseif(auth()->user()->isPemilikKos())
             <div class="small text-uppercase fw-semibold text-secondary mt-3 mb-1">Pemilik Kos</div>
-            <span class="nav-link text-secondary">Modul pemilik kos akan tersedia pada phase berikutnya.</span>
+            <a class="nav-link" href="{{ route('pemilik-kos.dashboard') }}">Dashboard</a>
+            <a class="nav-link" href="{{ route('pemilik-kos.kos.index') }}">Kos Saya</a>
+            <a class="nav-link" href="{{ route('pemilik-kos.penghuni.index') }}">Penghuni Aktif</a>
+            <a class="nav-link" href="{{ route('pemilik-kos.penghuni.history') }}">Riwayat Penghuni</a>
+            <a class="nav-link" href="{{ route('pemilik-kos.laporan.index') }}">Laporan</a>
         @endif
     @endauth
 </nav>
