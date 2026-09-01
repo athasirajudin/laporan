@@ -12,6 +12,7 @@ use App\Http\Controllers\PemilikKos\LaporanController as PemilikKosLaporanContro
 use App\Http\Controllers\PemilikKos\PenghuniController as PemilikKosPenghuniController;
 use App\Http\Controllers\SuperAdmin\AdminController;
 use App\Http\Controllers\SuperAdmin\KosController;
+use App\Http\Controllers\SuperAdmin\LaporanController as SuperAdminLaporanController;
 use App\Http\Controllers\SuperAdmin\WilayahController;
 use Illuminate\Support\Facades\Route;
 
@@ -52,6 +53,8 @@ Route::middleware('auth')->group(function () {
             Route::patch('/{kos}/verify', [KosController::class, 'verify'])->name('verify');
             Route::patch('/{kos}/reject', [KosController::class, 'reject'])->name('reject');
         });
+
+        Route::get('/laporan', [SuperAdminLaporanController::class, 'index'])->name('laporan.index');
     });
 
     Route::prefix('admin')->name('admin.')->middleware('role:admin')->group(function () {
