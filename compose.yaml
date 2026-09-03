@@ -60,7 +60,7 @@ services:
   ngrok:
     image: ngrok/ngrok:latest
     restart: unless-stopped
-    command: ["http", "app:8000"]
+    command: ["http", "app:8000", "--url", "https://nonenthusiastically-overrife-an.ngrok-free.dev"]
     ports:
       - "4040:4040"
     environment:
